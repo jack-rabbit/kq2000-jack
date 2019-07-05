@@ -1,0 +1,47 @@
+@import 'iview/dist/styles/iview.css';
+
+/*
+*修改左侧菜单栏的主题样式
+*/
+
+.ivu-menu,.font-18{
+    font-size: 16px;
+}
+.ivu-layout-sider{
+    background: #5472EA;
+}
+.ivu-menu-dark{
+    background: none;
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu), .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu):hover, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title-active:not(.ivu-menu-submenu), .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title-active:not(.ivu-menu-submenu):hover{
+    background: #3F5ED5;
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu), .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title-active:not(.ivu-menu-submenu){
+    color:#fff;
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item:hover,.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title:hover {
+    color: #fff;
+    background: #3F5ED5
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active,.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover {
+border-right: none;
+color: #fff;
+background: #3F5ED5!important
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened .ivu-menu-submenu-title{
+    background: #5472EA !important;
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened{
+    background: #5472EA;
+}
+.ivu-table th{
+    background: #E5EAFF
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+ 
+input[type="number"] {
+    -moz-appearance: textfield;
+}
