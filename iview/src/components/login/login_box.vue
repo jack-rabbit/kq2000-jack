@@ -61,6 +61,25 @@ import https from '../../https';
                 }
             }
         },
+        created(){
+    //         this.$axios({  //this代表vue对象，之前在入口文件中把axios挂载到了vue中，所以这里直接用this.$axios调用axios对象
+    //     method: 'post',
+    //     url: "/api/dept1",
+    //     data:{name:"admin"}
+    //   }).then(function (res) {
+    //     console.log(res);
+    //   }).catch(function (err) {
+    //     console.log(err);
+    //   })
+        const data={
+            name:"admin"
+        }
+        https.fetchPost("/api/dept",data).then((data)=>{
+            console.log(data);
+        }).catch((err)=>{
+            console.log(err);
+        })
+        },
         methods: {
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
@@ -77,6 +96,9 @@ import https from '../../https';
                         // })
                         https.fetchPost('/api/login',params).then((data) => {
                             console.log(data);
+                            if(data.data.status>0){
+                                this.$router.push("/home");
+                            }
                         }).catch(err=>{
                             console.log(err)
                         })
