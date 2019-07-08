@@ -74,6 +74,7 @@ import https from '../../https'
 export default {
     name:'config',
     created(){
+        
         https.fetchGet('/api/users' ).then((data) => {
                         console.log(data);
                         console.log(localStorage.getItem('token'));

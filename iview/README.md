@@ -21,12 +21,14 @@ npm run build --report
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ## 安装axios
-
+```bash
 npm install vue-axios --save
+```
 
 ##安装qs，它的作用是能把json格式的直接转成data所需的格式
-
+```bash
 npm insrall qs.js --save
+```
 
 ##axios跨域问题
 
