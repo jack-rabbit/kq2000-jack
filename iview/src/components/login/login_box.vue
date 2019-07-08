@@ -30,6 +30,7 @@
     </div>
 </template>
 <script>
+import https from '../../https';
     export default {
         name:"loginBox",
         data () {
@@ -65,8 +66,22 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         //this.$Message.success('Success!');
-                        localStorage.setItem('token','1234567890');
-                        this.$router.push('/home');
+                        let params = {
+                            username : this.formInline.user,
+                            password : this.formInline.password
+                        };
+                        // https.fetchGet('/api/login').then((data) => {
+                        //     console.log(data);
+                        // }).catch(err=>{
+                        //     console.log(err)
+                        // })
+                        https.fetchPost('/api/login',params).then((data) => {
+                            console.log(data);
+                        }).catch(err=>{
+                            console.log(err)
+                        })
+                        
+                        
                     } else {
                         this.$Message.error('Fail!');
                     }
