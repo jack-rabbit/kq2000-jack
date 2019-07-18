@@ -1,5 +1,5 @@
 <template>
-    <Row class="page">
+    <Row class="page" v-if="pageNum != 0">
             <Col span="12" class="left">
                 共 {{pageNum}} 页 当前第 {{currP}} 页
             </Col>
@@ -17,7 +17,8 @@ export default {
         return {
             countP:this.count,
             currP:this.curr,
-            pageNum:Math.ceil(this.count/this.limit)
+            limitP:this.limit,
+            //pageNum:Math.ceil(this.countP/this.limitP)
 
         }
     },
@@ -28,11 +29,16 @@ export default {
         },
         curr:{
             type:Number,
-            default:0
+            default:1
         },
         limit:{
             type:Number,
-            default:0
+            default:10
+        }
+    },
+    computed: {
+        pageNum: function () {
+            return Math.ceil(this.count/this.limit)
         }
     },
     methods:{
@@ -42,7 +48,9 @@ export default {
             temp -= 1;
             if(temp<=0){
                 temp=1;
+                this.currP=temp;
                 this.$Message.info('前面没有啦');
+                return;
             }
             this.currP=temp;    
             this.pageClick();
@@ -53,7 +61,9 @@ export default {
             temp += 1;
             if(temp>pageNum){
                 temp = pageNum;
+                this.currP=temp; 
                 this.$Message.info('后面没有啦');
+                return;
             }
             this.currP=temp;    
 
@@ -61,7 +71,8 @@ export default {
         },
         pageClick(){
             this.$emit('pagechanged', this.currP)
-        }
+        },
+        
     }
     
 }

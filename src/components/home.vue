@@ -22,7 +22,7 @@
             </Sider>
             <Layout>
                 <Header class="layout-header-bar">
-                    <p class="loginout"><router-link  to="/"><Icon type="md-power" />退出登录</router-link></p>
+                    <p class="loginout" @click="loginOut"><Icon type="md-power" />退出登录</p>
                 </Header>
                 <Content :style="{margin: '20px',  minHeight: '220px'}">
                     <router-view></router-view>
@@ -46,6 +46,19 @@ import https from '../https'
                     'menu-item',
                     this.isCollapsed ? 'collapsed-menu' : ''
                 ]
+            }
+        },
+        methods:{
+            loginOut(){
+                https.fetchGet(this.basePath+'/logout').then((data)=>{
+                    if(data.data.msgCode>0){
+                        this.$Message.success(data.data.msgContent);
+                        sessionStorage.clear();
+                        this.$router.push("/");
+                    }
+                }).catch((err)=>{
+                    console.log(err);
+                })
             }
         }
     }
@@ -101,9 +114,11 @@ import https from '../https'
         
     }
     .loginout{
-        text-align: right;
         font-size:16px;
         color: #5472EA;
+        cursor: pointer;
+        width: auto;
+        float: right;
         
     }
     .loginout .ivu-icon{

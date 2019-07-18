@@ -5,9 +5,11 @@ import Login from '@/components/login/login_box'
 import Log from '@/components/home/log'
 import Config from '@/components/home/config'
 import Attend from '@/components/attend/attend'
-import ConfigEdit from '@/components/home/config_edit'
+
 
 Vue.use(Router)
+
+  
 
 export default new Router({
   routes: [
@@ -26,11 +28,6 @@ export default new Router({
           path:'config',
           name:'config',
           component:Config
-        },
-        {
-          path:'config-edit',
-          name:'config-edit',
-          component:ConfigEdit
         },
         {
           path:'log',

@@ -1,11 +1,15 @@
 import axios from 'axios'
 import Qs from 'qs'
+import store from './store'
+import router from './router'
+
 
 
 let TOKEN='';
 
 axios.defaults.timeout = 5000;                        //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
+axios.defaults.headers.post['Accept'] = 'application/json' ;
 //axios.defaults.headers.common["Authorization"] = '1234567890';//配置token
 
 axios.defaults.baseURL = '';   //配置接口地址
@@ -13,16 +17,22 @@ axios.defaults.baseURL = '';   //配置接口地址
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
 
-    TOKEN=localStorage.getItem("token");
-    if(TOKEN){
-        console.log(1);
-        config.headers.common['token'] = TOKEN;
-        axios.defaults.headers.common["token"] = TOKEN;//配置token
-    }else{
-        console.log(0);
+    let userId=sessionStorage.getItem("user_id");
+    if(config.url.indexOf("login")<0){
+
+    
+        if(userId){            
+            //store.dispatch("setDeviceId",deviceId);
+            //console.log(store.state.deviceId);
+            //config.headers.common['token'] = TOKEN;
+            //axios.defaults.headers.common["token"] = TOKEN;//配置token
+        }else{
+            router.push("/");
+            return;
+        }
     }
     
-    //console.log(config)
+    console.log(config)
 
     //在发送请求之前做某件事
     if(config.method  === 'post'){
@@ -38,13 +48,21 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((res) =>{
     //对响应数据做些事
     console.log(res);
+    
     if(!res.data.success){
         return Promise.resolve(res);
     }
     return res;
 }, (error) => {
-    console.log('网络异常')
-    return Promise.reject(error);
+    console.log(error);
+    if(error.response.status=="401"){
+        return Promise.reject(error);
+    }else{
+        sessionStorage.clear();
+        router.push("/");
+        return;
+    }
+    
 });
 
 //返回一个Promise(发送post请求)

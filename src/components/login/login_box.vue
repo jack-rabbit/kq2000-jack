@@ -1,10 +1,11 @@
 <template>
 <div class="login">
 <div class="top"></div>
-    <div class="logo">
-      <img src="../../assets/images/login_logo.png" alt="">
-    </div>
+    
     <div class="login_box">
+      <div class="logo">
+        <img src="../../assets/images/login_logo.png" alt="">
+      </div>
       <p class="title">
         <span class="yun">云服务平台</span>
         <span class="shu">|</span>
@@ -61,25 +62,7 @@ import https from '../../https';
                 }
             }
         },
-        created(){
-    //         this.$axios({  //this代表vue对象，之前在入口文件中把axios挂载到了vue中，所以这里直接用this.$axios调用axios对象
-    //     method: 'post',
-    //     url: "/api/dept1",
-    //     data:{name:"admin"}
-    //   }).then(function (res) {
-    //     console.log(res);
-    //   }).catch(function (err) {
-    //     console.log(err);
-    //   })
-        const data={
-            name:"admin"
-        }
-        https.fetchPost("/api/dept",data).then((data)=>{
-            console.log(data);
-        }).catch((err)=>{
-            console.log(err);
-        })
-        },
+       
         methods: {
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
@@ -89,18 +72,27 @@ import https from '../../https';
                             username : this.formInline.user,
                             password : this.formInline.password
                         };
-                        // https.fetchGet('/api/login').then((data) => {
-                        //     console.log(data);
-                        // }).catch(err=>{
-                        //     console.log(err)
-                        // })
-                        https.fetchPost('/api/login',params).then((data) => {
-                            console.log(data);
+    
+                        https.fetchPost(this.basePath+'/login',params).then((data) => {
                             if(data.data.status>0){
+                                this.$store.dispatch("setUserId",data.data.data.userId);
                                 this.$router.push("/home");
+                            }else{
+                                this.$Message.error(data.data.msgContent.toString());
                             }
-                        }).catch(err=>{
-                            console.log(err)
+                        }).catch(error=>{
+                            if (error.response) {
+                                // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                                console.log(error.response.data);
+                                this.$Message.error(error.response.data.msgContent);
+                                console.log(error.response.status);
+                                console.log(error.response.headers);
+                                } else {
+                                // Something happened in setting up the request that triggered an Error
+                                console.log('Error', error.message);
+                                }
+                                console.log(error.config);
+                            //this.$Message.error(error.config);
                         })
                         
                         
@@ -170,11 +162,11 @@ import https from '../../https';
     background-size:cover;
   }
   .logo{
-       width: 26%;
+       width: 56%;
        position: absolute;
-       top:15%;
+       top:-15%;
        left: 50%;
-       margin-left: -13%;
+       margin-left: -28%;
    }
 
 </style>

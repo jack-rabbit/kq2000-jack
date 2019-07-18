@@ -57,7 +57,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,  //改为false后，解决webpack打包后浏览器可见源码
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 

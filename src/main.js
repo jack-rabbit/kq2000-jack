@@ -4,6 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import iView from 'iview'
+import store from './store'
+import "babel-polyfill"
+
+
+
 
 /**
  * axios http请求插件
@@ -13,6 +18,8 @@ import axios from 'axios'
 Vue.prototype.$axios = axios
 import QS from 'qs'
 Vue.prototype.qs = QS;
+
+Vue.prototype.basePath= process.env.API_HOST;
 
 //import 'iview/dist/styles/iview.css';
 import '../my-them/index.css'
@@ -24,6 +31,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
