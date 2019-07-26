@@ -9,14 +9,11 @@ import Attend from '@/components/attend/attend'
 
 Vue.use(Router)
 
-  
-
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'login',
-      component: Login
+let routes =  [
+    {
+    path: '/',
+    name: 'login',
+    component: Login
     },
     {
       path: '/home',
@@ -41,5 +38,19 @@ export default new Router({
         }
       ]
     }
-  ]
-})
+  ];
+
+  const router = new Router({
+    history: true,
+    routes : routes
+  });
+router.beforeEach((to, from, next) => {
+    console.log(to.matched);
+    if (to.matched.length ===0) {                                        //如果未匹配到路由
+      from.name ? next({ name:from.name }) : next('/home/config');   //如果上级也未匹配到路由则跳转登录页面，如果上级能匹配到则转上级路由
+    } else {
+      next();                                                                            //如果匹配到正确跳转
+    }
+  });
+
+export default router

@@ -20,6 +20,7 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+
 ## 安装axios
 ```bash
 npm install vue-axios --save
@@ -48,6 +49,125 @@ proxyTable: {
         }
       }
     }
+```
+## iview国际化
+
+### 1.安装语言包
+
+```bash
+  cnpm install --save vue-i18n@5.0.3
+```
+
+### 2.在项目根目录增加文件夹language
+
+```bash
+  |-build
+  |-config
+  |-dist
+  |-language    //增加语言文件夹
+    |-zh-CN.json  //自定义中文包
+    |-index.js    //配置js
+    |-en-US.json  //自定义英文包
+  ···
+```
+
+### 3.在language文件夹中新增文件：index.js,zh-CN.json,en-US.json
+
+> index.js:
+
+```javascript
+  /**
+ * 引入vue-i18n
+ */
+import Vue from 'vue'
+import VueI18n from 'vue-i18n';
+Vue.use(VueI18n);
+
+/**
+ * 导入iview自带语言包
+ */
+import zh from 'iview/dist/locale/zh-CN';
+import en from 'iview/dist/locale/en-US';
+
+/**
+ * 导入APP json语言包
+ */
+import app_zh from './zh-CN.json'
+import app_en from './en-US.json';
+
+/**
+ * 多语言配置  
+ * Object.assign(zh,app_zh)  
+ * zh       : iview 语言包
+ * app_zh   : App json语言包
+ */
+Vue.locale('zh-CN',Object.assign(zh,app_zh))
+Vue.locale('en-US',Object.assign(en,app_en))
+
+// 自动设置语言
+//获取本机系统语言
+const navLang = navigator.language;  
+let localLang = false;
+
+if(navLang == "en"){
+    localLang="en-US"
+}else if(navLang == "zh"){
+    localLang="zh-CN"
+}else{
+    localLang=false;
+}
+//const localLang = (navLang == "zh" || navLang == "en") ? navLang : false;
+/**
+ * localStorage.getItem(key):获取指定key本地存储的值
+ * localStorage.setItem(key,value)：将value存储到key字段
+ * localStorage.removeItem(key):删除指定key本地存储的值
+ */
+const lang = window.localStorage.getItem('language') || localLang || 'zh-CN';
+
+
+//配置默认语言
+//Vue.config.lang = 'zh-CN'; 默认为中文
+//Vue.config.lang = 'en-US'; //默认为英文
+Vue.config.lang = lang;
+
+export default{}
+```
+
+> zh-CN.json
+
+```javascript
+  {
+    "product_model" : "产品型号",
+    "refresh" : "刷新",
+    "language":"语言"
+  }
+```
+
+> en-US.json
+
+```javascript
+  {
+    "product_model" : "Product Model",
+    "refresh" : "Refresh",
+    "language":"Language"
+  }
+```
+
+### 4.在main.js中导入language/index.js文件
+
+```javascript
+  import Vue from 'vue'
+  import App from './App'
+  import router from './router'
+  import iView from 'iview'
+  import store from './store'
+  import "babel-polyfill"
+  import '../language'
+```
+### 5.使用
+
+```html
+  <p>{{ $t('product_model') }}</p> 
 ```
 
 

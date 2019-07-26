@@ -30,7 +30,6 @@
                 <Col span="12" class="right">
                     <Input type="text" v-model="rfid" size="small" placeholder="输入RFID" style="width:100px;"></Input>
                     <DatePicker :value="dateArray" size="small" :options="option" format="yyyy-MM-dd" @on-change="setValue" type="daterange" placement="bottom-start" placeholder="选择日期" style="width:200px;" ></DatePicker>
-                    <!-- <DatePicker :value="dateArray" :options="option" format="yyyy-MM-dd" @on-change="setValue" type="daterange" placement="bottom-start" placeholder="选择日期" ></DatePicker> -->
                     <Button type="primary" class="search_btn" size="small" @click="search">查询</Button>
                 </Col>
             </Row>
@@ -70,7 +69,6 @@ export default {
             dateArray:[],
             option:{
                 disabledDate (date) {
-                    //const disabledDay = date.getDate();
                     const nowDate=new Date();
                     return date > nowDate;
                 }
@@ -109,26 +107,16 @@ export default {
             return this.count-this.inNum-this.outNum;
         }
     },
-    created(){
-        
-
-        //this.httpData(this.curr);
-
+    created(){        
         this.loading=true;
-
-        //const start =new Date();
-        //start.setTime(start.getTime() - 3600 * 1000 * 24)
         this.dateArray[0]= Tool.formatDate(new Date());
         this.dateArray[1]=Tool.formatDate(new Date());
 
-        //this.dateArray = Tool.formatDate(new Date());
-        //this.jump(this.curr);
         const param = {
-            deviceId:this.$store.state.deviceId==''?sessionStorage.getItem("device_id"):this.$store.state.deviceId,
-            state:this.type.toString(),
-            //creat_time: this.dateArray 
+            device_id:this.$store.state.deviceId==''?sessionStorage.getItem("device_id"):this.$store.state.deviceId,
+            state:this.type.toString(), 
             start_time:this.dateArray[0],
-            end_time:this.dateArray[1]   
+            end_time:this.dateArray[1], 
         }
         this.httpData(param);
         this.getNum(param);
@@ -138,9 +126,9 @@ export default {
         jump(curr){
             this.loading = true;
             this.curr = curr;
+            console.log("curr",curr);
             const param = {
-                deviceId:this.$store.state.deviceId==''?sessionStorage.getItem("device_id"):this.$store.state.deviceId,
-                //creat_time:this.dateArray, 
+                device_id:this.$store.state.deviceId==''?sessionStorage.getItem("device_id"):this.$store.state.deviceId,
                 start_time:this.dateArray[0],
                 end_time:this.dateArray[1],
                 showcount:this.limit,
@@ -182,10 +170,13 @@ export default {
                     
                 }  
                 this.count = data.data.data.total;
-                this.curr = data.data.data.pageNum+1;
+                this.curr = data.data.data.pageNum;
                 this.limit = data.data.data.pageSize;
                 this.data1 = arry;
                 this.loading=false;
+
+
+                console.log(this.curr);
             }else{
                 this.data1 = [];
                 this.count = 0;
@@ -206,12 +197,10 @@ export default {
         },
         search(){
             const param = {
-                deviceId:this.$store.state.deviceId==''?sessionStorage.getItem("device_id"):this.$store.state.deviceId,
-                //creat_time:this.dateArray, 
+                device_id:this.$store.state.deviceId==''?sessionStorage.getItem("device_id"):this.$store.state.deviceId,
                 start_time:this.dateArray[0],
                 end_time:this.dateArray[1],
                 showcount:this.limit,
-                //currentpage:this.curr,
                 cardnum:this.rfid,
                 state:this.type.toString(),
             }
@@ -233,7 +222,7 @@ export default {
                     
                         this.station=res.stateOnline;
                         this.padNum=res.attendance;
-                        this.verson=res.currentVersion;
+                        this.verson=res.kq200df;
                         this.loading2=false;
 
                         

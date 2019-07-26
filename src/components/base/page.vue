@@ -1,10 +1,10 @@
 <template>
     <Row class="page" v-if="pageNum != 0">
             <Col span="12" class="left">
-                共 {{pageNum}} 页 当前第 {{currP}} 页
+                共 {{pageNum}} 页 当前第 {{data.currTemp}} 页
             </Col>
             <Col span="12" class="right">
-               跳转至<Input size="small" v-model="currP" @on-enter="pageClick" style="width:48px;margin:0 10px;"/>页  
+               跳转至<Input size="small" v-model="data.currTemp" @on-enter="pageClick" style="width:48px;margin:0 10px;"/>页  
                <Button  @click="prev" size="small" style="margin-left:30px;">上一页</Button>
                <Button  @click="next" size="small">下一页</Button>
             </Col>
@@ -16,10 +16,17 @@ export default {
     data(){
         return {
             countP:this.count,
-            currP:this.curr,
             limitP:this.limit,
-            //pageNum:Math.ceil(this.countP/this.limitP)
+            data:{
+                currTemp:this.curr
+            }
+            
 
+        }
+    },
+    watch:{
+        curr(){
+            this.data.currTemp = this.curr
         }
     },
     props:{
@@ -29,7 +36,7 @@ export default {
         },
         curr:{
             type:Number,
-            default:1
+            default:0
         },
         limit:{
             type:Number,
@@ -44,33 +51,33 @@ export default {
     methods:{
         
         prev(){
-            let temp = this.currP;
+            let temp = this.data.currTemp;
             temp -= 1;
             if(temp<=0){
                 temp=1;
-                this.currP=temp;
+                this.data.currTemp=temp;
                 this.$Message.info('前面没有啦');
                 return;
             }
-            this.currP=temp;    
+            this.data.currTemp=temp;    
             this.pageClick();
         },
         next(){
-            let temp = this.currP;
+            let temp = this.data.currTemp;
             const pageNum = this.pageNum;
             temp += 1;
             if(temp>pageNum){
                 temp = pageNum;
-                this.currP=temp; 
+                this.data.currTemp=temp; 
                 this.$Message.info('后面没有啦');
                 return;
             }
-            this.currP=temp;    
+            this.data.currTemp=temp;    
 
             this.pageClick();
         },
         pageClick(){
-            this.$emit('pagechanged', this.currP)
+            this.$emit('pagechanged', this.data.currTemp)
         },
         
     }

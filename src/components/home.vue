@@ -22,6 +22,12 @@
             </Sider>
             <Layout>
                 <Header class="layout-header-bar">
+                    <!-- <p class="language">
+                        {{ $t('language') }}
+                        <Select v-model="language" style="width:100px">
+                            <Option v-for="item in languageList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                    </p> -->
                     <p class="loginout" @click="loginOut"><Icon type="md-power" />退出登录</p>
                 </Header>
                 <Content :style="{margin: '20px',  minHeight: '220px'}">
@@ -37,7 +43,18 @@ import https from '../https'
         name:"home",
         data () {
             return {
-                isCollapsed: false
+                isCollapsed: false,
+                // languageList:[
+                //     {
+                //         value: 'zh-CN',
+                //         label: '中文'
+                //     },
+                //     {
+                //         value: 'en-US',
+                //         label: 'English'
+                //     }
+                // ],
+                // language:''
             };
         },
         computed: {
@@ -123,5 +140,8 @@ import https from '../https'
     }
     .loginout .ivu-icon{
         margin-right: 10px;
+    }
+    .language{
+        float: left;
     }
 </style>

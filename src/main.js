@@ -6,6 +6,7 @@ import router from './router'
 import iView from 'iview'
 import store from './store'
 import "babel-polyfill"
+import '../language'
 
 
 

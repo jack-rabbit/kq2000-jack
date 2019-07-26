@@ -125,7 +125,7 @@ export default {
                         
                     }  
                     this.count = data.data.data.total;
-                    this.curr = data.data.data.pageNum+1;
+                    this.curr = data.data.data.pageNum;
                     this.limit = data.data.data.pageSize;
                     this.data1 = arry;
                     this.loading=false;

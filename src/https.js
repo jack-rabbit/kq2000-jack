@@ -7,7 +7,7 @@ import router from './router'
 
 let TOKEN='';
 
-axios.defaults.timeout = 5000;                        //响应时间
+axios.defaults.timeout = 50000;                        //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
 axios.defaults.headers.post['Accept'] = 'application/json' ;
 //axios.defaults.headers.common["Authorization"] = '1234567890';//配置token

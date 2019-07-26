@@ -62,7 +62,11 @@ import https from '../../https';
                 }
             }
         },
-       
+       created(){
+           if(sessionStorage.getItem("user_id")!=null){
+                this.$router.push("/home");
+           }
+       },
         methods: {
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
